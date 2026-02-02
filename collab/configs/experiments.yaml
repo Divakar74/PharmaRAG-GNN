@@ -1,0 +1,33 @@
+# Experiment configurations
+
+experiments:
+  baseline_bce:
+    name: "baseline_bce"
+    model:
+      llm_embedding_dim: 768
+      gnn_hidden_dim: 256
+      gnn_output_dim: 256
+      num_layers: 3
+    training:
+      batch_size: 32
+      learning_rate: 0.001
+      num_epochs: 100
+      loss:
+        type: "bce"
+  
+  focal_loss:
+    name: "focal_loss_gamma2"
+    model:
+      llm_embedding_dim: 768
+      gnn_hidden_dim: 256
+      gnn_output_dim: 256
+      num_layers: 3
+    training:
+      batch_size: 32
+      learning_rate: 0.001
+      num_epochs: 100
+      loss:
+        type: "focal"
+        focal:
+          alpha: 0.25
+          gamma: 2.0

@@ -1,0 +1,59 @@
+# DDI Prediction Model Configuration
+
+# Model Architecture
+model:
+  name: "llm_gnn_model"
+  llm_embedding_dim: 768  # LLM embedding dimension
+  gnn_hidden_dim: 256
+  gnn_output_dim: 256
+  num_layers: 3
+  dropout: 0.3
+
+# Training Configuration
+training:
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 1e-5
+  num_epochs: 100
+  early_stopping_patience: 10
+
+# Loss Function
+loss:
+  type: "focal"  # Options: "bce", "focal"
+  focal:
+    alpha: 0.25
+    gamma: 2.0
+
+# Dataset Configuration
+dataset:
+  name: "ogbl-ddi"
+  data_path: "./data/ogbl_ddi"
+  train_ratio: 0.7
+  valid_ratio: 0.1
+  test_ratio: 0.2
+
+# Embedding Configuration
+embedding:
+  model: "sentence-transformers/all-mpnet-base-v2"
+  device: "cuda"  # or "cpu"
+  cache_dir: "./cache"
+
+# Graph Configuration
+graph:
+  ddi_graph_path: "./cache/ddi_graph.pkl"
+  biokg_graph_path: "./cache/biokg_graph.pkl"
+
+# Database Configuration
+database:
+  neo4j:
+    uri: "bolt://localhost:7687"
+    user: "neo4j"
+    password: "password"
+  chromadb:
+    path: "./chroma_db"
+    collection_name: "biokg_drugs"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  log_dir: "./logs"
