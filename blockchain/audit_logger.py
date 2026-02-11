@@ -51,6 +51,10 @@ class BlockchainAuditLogger:
         self._save_ledger()
         return record_hash
     
-    def get_user_history(self, user_id: str, limit: int = 10) -> list:
-        user_records = [r for r in self.ledger if r['user_id'] == user_id]
-        return user_records[-limit:]
+    def get_user_history(self, user_id: str = None, limit: int = 10, **kwargs) -> list:
+        if user_id:
+            user_records = [r for r in self.ledger if r.get('user_id') == user_id]
+        else:
+            user_records = list(self.ledger)
+        user_records.sort(key=lambda r: r.get('timestamp', ''), reverse=True)
+        return user_records[:limit]
